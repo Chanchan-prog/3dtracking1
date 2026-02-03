@@ -1,0 +1,16 @@
+{
+  "name": "attendance-ws-server",
+  "version": "1.0.0",
+  "description": "WebSocket server for real-time attendance and dashboard updates",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}

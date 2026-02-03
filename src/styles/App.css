@@ -1,0 +1,277 @@
+/* Make app full-bleed and full-height */
+html, body, #root { height: 100%; width: 100%; margin: 0; padding: 0; overflow-x: hidden; }
+body { font-family: Arial, Helvetica, sans-serif; background: #f3f3f3; }
+
+/* Prevent horizontal scrolling and ensure predictable sizing */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* When the login page is active add this class to body to remove app padding and hide header if necessary */
+body.login-fullpage {
+  padding: 0 !important;
+}
+
+/* Remove old centered max-width so the app can use full viewport */
+#root { max-width: none; margin: 0; padding: 0; min-height: 100vh; }
+
+/* Ensure container-fluid uses full width like bootstrap */
+.container-fluid { width: 100%; max-width: 100%; padding-left: 0; padding-right: 0; box-sizing: border-box; }
+
+/* Reset container paddings so bootstrap-like grid doesn't create overflow */
+.container { padding-left: 0; padding-right: 0; max-width: 100%; }
+.row { margin-left: 0; margin-right: 0; }
+[class^="col-"], [class*=" col-"] { padding-left: 0.5rem; padding-right: 0.5rem; }
+
+/* Make top-level sections fill height and center content vertically */
+section { min-height: 100vh; display: flex; align-items: center; }
+
+/* === Login page specific layout to match provided design === */
+@keyframes loginSlideFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(48px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes loginPopUp {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.login-page {
+  position: relative;
+  background: linear-gradient(180deg, #f0f0f0 0%, #e8e8e8 50%, #e0e0e0 100%);
+  overflow: hidden;
+}
+
+/* Top wave: dark green on LEFT, fading to right */
+.login-page::before {
+  content: "";
+  position: absolute;
+  left: -15%;
+  top: -25%;
+  width: 75%;
+  height: 40%;
+  background: linear-gradient(
+    to right,
+    rgba(34, 87, 44, 0.85) 0%,
+    rgba(47, 143, 58, 0.6) 30%,
+    rgba(47, 143, 58, 0.25) 55%,
+    rgba(47, 143, 58, 0.06) 80%,
+    transparent 100%
+  );
+  border-radius: 0 0 60% 50% / 0 0 45% 40%;
+  transform: rotate(-8deg);
+  z-index: 0;
+}
+
+/* Bottom wave: dark green on LEFT, fading to right */
+.login-page::after {
+  content: "";
+  position: absolute;
+  left: 10;
+  bottom: -10%;
+  width: 160%;
+  height: 60%;
+  background: linear-gradient(
+    to left,
+    rgba(28, 80, 38, 0.85) 0%,
+    rgba(40, 95, 50, 0.6) 20%,
+    rgba(55, 120, 65, 0.35) 45%,
+    rgba(75, 145, 90, 0.15) 70%,
+    rgba(100, 165, 110, 0.04) 90%,
+    transparent 100%
+  );
+  border-radius: 100% 10% 0 0 / 120% 80% 0 0;
+  z-index: 0;
+}
+
+.login-left-panel {
+  position: relative;
+  background: transparent;
+  color: #111827;
+  z-index: 1;
+  padding-bottom: 4rem;
+}
+
+/* center college logo and text block */
+.login-left-panel .text-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-left: 0;
+  animation: loginSlideFromRight 0.5s ease-out 0.15s both;
+}
+
+.login-left-panel h3 {
+  font-size: 1.7rem;
+  letter-spacing: 0.02em;
+  animation: loginSlideFromRight 0.5s ease-out 0.25s both;
+}
+
+.login-left-panel p {
+  font-size: 0.95rem;
+  animation: loginSlideFromRight 0.5s ease-out 0.35s both;
+}
+
+.login-right-panel {
+  background: transparent;
+  z-index: 1;
+  padding-top: 0px; /* move PHINMA + Sign In block slightly up */
+  animation: loginSlideFromRight 0.5s ease-out 0.2s both;
+}
+
+/* position login card block inside right panel */
+.login-right-panel .container {
+  max-width: 750px;
+  margin-left: auto;
+  margin-right: 110rem;
+  animation: loginPopUp 0.45s ease-out 0.4s both;
+}
+
+.login-right-panel .row {
+  justify-content: flex-end !important; /* align content toward the right edge */
+}
+
+/* Small utility to ensure login card stretches appropriately on tall screens */
+.login-details { width: 100%; }
+
+/* Adjust card width and centering to match design */
+.card { border-radius: 8px; box-shadow: 0 6px 20px rgba(20,37,53,0.08); }
+
+/* Tighten the left column content alignment to match original design */
+.col-lg-5.text-center img { max-width: 180px; }
+
+/* Tighten login columns so there is no horizontal overflow on small viewports */
+.col-lg-5, .col-lg-7 { min-height: 100vh; }
+.col-lg-5 { padding: 2.5rem 1.25rem; }
+.col-lg-7 { padding: 2.5rem 1.25rem; }
+
+/* Keep the login card centered and with correct max width; subtle gradient fade on edges */
+.login-details .card,
+.login-right-panel .card {
+  max-width: 650px;
+  margin: 0 auto;
+  background: linear-gradient(145deg, #ffffff 0%, #fafafa 100%);
+  box-shadow: 0 8px 32px rgba(20, 37, 53, 0.08), 0 2px 8px rgba(47, 143, 58, 0.06);
+  border: 1px solid rgba(47, 143, 58, 0.08);
+}
+
+/* Images must never exceed their column width */
+img { max-width: 100%; height: auto; display: block; }
+
+/* keep simple button sizing */
+button { padding: 8px 12px; }
+
+/* === Dashboard animations === */
+.dashboard-page {
+  animation: dashboardFadeIn 0.5s ease-out;
+}
+
+@keyframes dashboardFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dashboard-card {
+  animation: cardSlideUp 0.5s ease-out backwards;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(2, 6, 23, 0.1);
+}
+
+.dashboard-card:nth-child(1) { animation-delay: 0.05s; }
+.dashboard-card:nth-child(2) { animation-delay: 0.1s; }
+.dashboard-card:nth-child(3) { animation-delay: 0.15s; }
+.dashboard-card:nth-child(4) { animation-delay: 0.2s; }
+.dashboard-card:nth-child(5) { animation-delay: 0.25s; }
+.dashboard-card:nth-child(6) { animation-delay: 0.3s; }
+.dashboard-card:nth-child(7) { animation-delay: 0.35s; }
+.dashboard-card:nth-child(8) { animation-delay: 0.4s; }
+.dashboard-card:nth-child(9) { animation-delay: 0.45s; }
+.dashboard-card:nth-child(10) { animation-delay: 0.5s; }
+
+@keyframes cardSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dashboard-kpi-item {
+  animation: cardSlideUp 0.5s ease-out backwards;
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.dashboard-kpi-item:nth-child(1) { animation-delay: 0.05s; }
+.dashboard-kpi-item:nth-child(2) { animation-delay: 0.1s; }
+.dashboard-kpi-item:nth-child(3) { animation-delay: 0.15s; }
+.dashboard-kpi-item:nth-child(4) { animation-delay: 0.2s; }
+.dashboard-kpi-item:nth-child(5) { animation-delay: 0.25s; }
+
+.dashboard-kpi-item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+}
+
+.dashboard-header {
+  animation: dashboardFadeIn 0.4s ease-out;
+}
+
+.dashboard-section {
+  animation: cardSlideUp 0.5s ease-out backwards;
+}
+
+.dashboard-section:nth-child(1) { animation-delay: 0.15s; }
+.dashboard-section:nth-child(2) { animation-delay: 0.25s; }
+.dashboard-section:nth-child(3) { animation-delay: 0.35s; }
+
+.dashboard-table-row {
+  animation: rowFadeIn 0.4s ease-out backwards;
+}
+
+.dashboard-table-row:nth-child(1) { animation-delay: 0.05s; }
+.dashboard-table-row:nth-child(2) { animation-delay: 0.1s; }
+.dashboard-table-row:nth-child(3) { animation-delay: 0.15s; }
+.dashboard-table-row:nth-child(4) { animation-delay: 0.2s; }
+.dashboard-table-row:nth-child(5) { animation-delay: 0.25s; }
+.dashboard-table-row:nth-child(n+6) { animation-delay: 0.3s; }
+
+@keyframes rowFadeIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.dashboard-refresh-btn {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.dashboard-refresh-btn:hover {
+  transform: scale(1.05);
+}
+
+.dashboard-refresh-btn:active {
+  transform: scale(0.98);
+}
+
+.dashboard-live-badge {
+  display: inline-block;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
